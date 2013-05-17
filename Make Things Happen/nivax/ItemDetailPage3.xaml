@@ -1,0 +1,598 @@
+﻿<common:LayoutAwarePage
+    x:Name="pageRoot"
+    x:Class="FoodVariable.ItemDetailPage"
+    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FoodVariable"
+    xmlns:data="using:FoodVariable.Data"
+    xmlns:common="using:FoodVariable.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.TopAppBar>
+        <AppBar x:Name="TopApp" Padding="10,0,10,0" MinHeight="110" Background="#E5000000" BorderBrush="#F4151515">
+            <Grid Height="100" Margin="40,0">
+                <StackPanel Margin="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <Button x:Name="btnHome" Tag="Home" HorizontalAlignment="Right" BorderBrush="{x:Null}" BorderThickness="0" FontWeight="Normal" VerticalAlignment="Center" Padding="0" Style="{StaticResource TopAppbarBtnStyle}" Click="btnHome_Click"  >
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="81" Margin="0" Width="64" Background="#00464646">
+                            <Image Source="Assets/AppBar/AppbarBtn1.png" Margin="0"/>
+                        </Grid>
+                    </Button>
+                    <Button x:Name="btnMeals" Tag="Arabic Design" HorizontalAlignment="Right" BorderBrush="{x:Null}" BorderThickness="0" FontWeight="Normal" VerticalAlignment="Center" Padding="0" Style="{StaticResource TopAppbarBtnStyle}" Margin="15,0,0,0"  >
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="81" Margin="0" Width="64" Background="#00464646">
+                            <Image Source="Assets/AppBar/AppbarBtn2.png" Margin="0"/>
+                        </Grid>
+                    </Button>
+                    <Button x:Name="btnTours" Tag="Tours" HorizontalAlignment="Right" BorderBrush="{x:Null}" BorderThickness="0" FontWeight="Normal" VerticalAlignment="Center" Padding="0" Style="{StaticResource TopAppbarBtnStyle}" Margin="15,0,0,0"  >
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="81" Margin="0" Width="64" Background="#00464646">
+                            <Image Source="Assets/AppBar/AppbarBtn3.png" Margin="0"/>
+                        </Grid>
+                    </Button>
+                    <Button x:Name="btnTutorials" Tag="Tutorials" HorizontalAlignment="Right" BorderBrush="{x:Null}" BorderThickness="0" FontWeight="Normal" VerticalAlignment="Center" Padding="0" Style="{StaticResource TopAppbarBtnStyle}" Margin="15,0,0,0"  >
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="81" Margin="0" Width="64" Background="#00464646">
+                            <Image Source="Assets/AppBar/AppbarBtn4.png" Margin="0"/>
+                        </Grid>
+                    </Button>
+                    <Button x:Name="btnSupplies" Tag="Supplies" HorizontalAlignment="Right" BorderBrush="{x:Null}" BorderThickness="0" FontWeight="Normal" VerticalAlignment="Center" Padding="0" Style="{StaticResource TopAppbarBtnStyle}" Margin="15,0,0,0"  >
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="81" Margin="0" Width="64" Background="#00464646">
+                            <Image Source="Assets/AppBar/AppbarBtn5.png" Margin="0"/>
+                        </Grid>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </AppBar>
+    </Page.TopAppBar>
+
+
+    <Page.Resources>
+
+        <!-- Collection of items displayed by this page -->
+        <CollectionViewSource
+            x:Name="itemsViewSource"
+            Source="{Binding Items}"
+            d:Source="{Binding AllGroups[0].Items, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}"/>
+        <Storyboard x:Name="ImageViewAnimationOpen">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ImageViewShadow">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.5">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="0:0:1.5">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ImageViewShadow">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="ImageView">
+                <EasingDoubleKeyFrame KeyTime="0" Value="3"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1.5"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuinticEase/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="ImageView">
+                <EasingDoubleKeyFrame KeyTime="0" Value="3"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1.5"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuinticEase/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ImageView">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ImageView">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.5">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="0:0:1.5">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="ImageViewAnimationClose">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ImageViewShadow">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="0:0:1">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="0:0:1.5">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="0:0:1.6">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ImageViewShadow">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:1.5" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="ImageView">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1.5">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuinticEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <SplineDoubleKeyFrame KeyTime="0:0:1.5" Value="1.5"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="1.5"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="ImageView">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1.5">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuinticEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <SplineDoubleKeyFrame KeyTime="0:0:1.5" Value="1.5"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="1.5"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ImageView">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:1.5" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ImageView">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="0:0:1">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="0:0:1.5">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="0:0:1.6">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+
+    <!--
+        This grid acts as a root panel for the page that defines two rows:
+        * Row 0 contains the back button and page title
+        * Row 1 contains the rest of the page layout
+    -->
+    <Grid
+        Style="{StaticResource LayoutRootStyle}"
+        DataContext="{Binding Group}"
+        d:DataContext="{Binding AllGroups[0], Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}">
+        <Grid.Background>
+            <ImageBrush ImageSource="Assets/HubPage/Bg.jpg"/>
+        </Grid.Background>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--
+            The remainder of the page is one large FlipView that displays details for
+            one item at a time, allowing the user to flip through all items in the chosen
+            group
+        -->
+        <FlipView
+            x:Name="flipView"
+            AutomationProperties.AutomationId="ItemsFlipView"
+            AutomationProperties.Name="Item Details"
+            TabIndex="1"
+            Grid.RowSpan="2"
+            ItemsSource="{Binding Source={StaticResource itemsViewSource}}" Visibility="Collapsed">
+
+            <FlipView.ItemContainerStyle>
+                <Style TargetType="FlipViewItem">
+                    <Setter Property="Margin" Value="0,137,0,0"/>
+                </Style>
+            </FlipView.ItemContainerStyle>
+
+            <FlipView.ItemTemplate>
+                <DataTemplate>
+
+                    <!--
+                        UserControl chosen as the templated item because it supports visual state management
+                        Loaded/unloaded events explicitly subscribe to view state updates from the page
+                    -->
+                    <UserControl Loaded="StartLayoutUpdates" Unloaded="StopLayoutUpdates">
+                        <ScrollViewer x:Name="scrollViewer" Style="{StaticResource HorizontalScrollViewerStyle}" Grid.Row="1">
+
+                            <!-- Content is allowed to flow across as many columns as needed -->
+                            <common:RichTextColumns x:Name="richTextColumns" Margin="117,0,117,47">
+                                <RichTextBlock x:Name="richTextBlock" Width="560" Style="{StaticResource ItemRichTextStyle}" IsTextSelectionEnabled="False">
+                                    <Paragraph>
+                                        <Run FontSize="26.667" FontWeight="Light" Text="{Binding Title}"/>
+                                        <LineBreak/>
+                                        <LineBreak/>
+                                        <Run FontWeight="Normal" Text="{Binding Subtitle}"/>
+                                    </Paragraph>
+                                    <Paragraph LineStackingStrategy="MaxHeight">
+                                        <InlineUIContainer>
+                                            <Image x:Name="image" MaxHeight="480" Margin="0,20,0,10" Stretch="Uniform" Source="{Binding Image}" AutomationProperties.Name="{Binding Title}"/>
+                                        </InlineUIContainer>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <Run FontWeight="SemiLight" Text="{Binding Content}"/>
+                                    </Paragraph>
+                                </RichTextBlock>
+
+                                <!-- Additional columns are created from this template -->
+                                <common:RichTextColumns.ColumnTemplate>
+                                    <DataTemplate>
+                                        <RichTextBlockOverflow Width="560" Margin="80,0,0,0">
+                                            <RichTextBlockOverflow.RenderTransform>
+                                                <TranslateTransform X="-1" Y="4"/>
+                                            </RichTextBlockOverflow.RenderTransform>
+                                        </RichTextBlockOverflow>
+                                    </DataTemplate>
+                                </common:RichTextColumns.ColumnTemplate>
+                            </common:RichTextColumns>
+
+                            <VisualStateManager.VisualStateGroups>
+
+                                <!-- Visual states reflect the application's view state inside the FlipView -->
+                                <VisualStateGroup x:Name="ApplicationViewStates">
+                                    <VisualState x:Name="FullScreenLandscape"/>
+                                    <VisualState x:Name="Filled"/>
+
+                                    <!-- Respect the narrower 100-pixel margin convention for portrait -->
+                                    <VisualState x:Name="FullScreenPortrait">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="richTextColumns" Storyboard.TargetProperty="Margin">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="97,0,87,57"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="image" Storyboard.TargetProperty="MaxHeight">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="400"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+
+                                    <!-- When snapped, the content is reformatted and scrolls vertically -->
+                                    <VisualState x:Name="Snapped">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="richTextColumns" Storyboard.TargetProperty="Margin">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="17,0,17,57"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="scrollViewer" Storyboard.TargetProperty="Style">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource VerticalScrollViewerStyle}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="richTextBlock" Storyboard.TargetProperty="Width">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="280"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="image" Storyboard.TargetProperty="MaxHeight">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="160"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </ScrollViewer>
+                    </UserControl>
+                </DataTemplate>
+            </FlipView.ItemTemplate>
+        </FlipView>
+
+
+        <ScrollViewer x:Name="scrollViewer" Grid.Row="1" Style="{StaticResource HorizontalScrollViewerStyle}">
+            <Grid x:Name="grdmain" Margin="120,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="505"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="285"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="285"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="285"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="285"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="285"/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                <Grid x:Name="grdImage" VerticalAlignment="Top" Height="505" Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="118"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="118"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="118"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="118"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="118"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="118"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="118"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="118"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid x:Name="grdBig" Grid.RowSpan="5" Grid.ColumnSpan="5" Background="Transparent" Tapped="grdBig_Tapped">
+                        <Image Source="Assets/DetailPage/DetailImageBig.png" Stretch="UniformToFill"/>
+                    </Grid>
+                    <Grid x:Name="grdSmall1" Grid.Column="6" Background="#00000000"  Tapped="grdBig_Tapped">
+                        <Image Source="Assets/DetailPage/DetailImage1.png" Stretch="UniformToFill"/>
+                    </Grid>
+                    <Grid x:Name="grdSmall2" Grid.Column="6" Grid.Row="2" Background="#00000000"  Tapped="grdBig_Tapped">
+                        <Image Source="Assets/DetailPage/DetailImage2.png" Stretch="UniformToFill"/>
+                    </Grid>
+                    <Grid x:Name="grdSmall3" Grid.Column="6" Grid.Row="4" Background="#00000000"  Tapped="grdBig_Tapped">
+                        <Image Source="Assets/DetailPage/DetailImage3.png" Stretch="UniformToFill"/>
+                    </Grid>
+                    <Grid x:Name="grdSmall4" Grid.Row="6" Background="#00000000"  Tapped="grdBig_Tapped">
+                        <Image Source="Assets/DetailPage/DetailImage5.png" Stretch="UniformToFill"/>
+                    </Grid>
+                    <Grid x:Name="grdSmall5" Grid.Column="2" Grid.Row="6" Background="#00000000"  Tapped="grdBig_Tapped">
+                        <Image Source="Assets/DetailPage/DetailImage6.png" Stretch="UniformToFill"/>
+                    </Grid>
+                    <Grid x:Name="grdSmall6" Grid.Column="4" Grid.Row="7" Background="#00000000"  Tapped="grdBig_Tapped">
+                        <Image Source="Assets/DetailPage/DetailImage7.png" Stretch="UniformToFill"/>
+                    </Grid>
+                    <Grid x:Name="grdSmall7" Grid.Column="6" Grid.Row="6" Background="#00000000" >
+                        <Image Source="Assets/DetailPage/DetailImage4.png" Stretch="UniformToFill"/>
+                    </Grid>
+                </Grid>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Arabic" VerticalAlignment="Center" FontFamily="Segoe UI" FontSize="26.667" Grid.ColumnSpan="4" Foreground="#FF323232"/>
+                <Grid x:Name="grdIngredients" Grid.Row="2" Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="What You Need" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="21.333" Foreground="#FF323232" Margin="0,-7,0,0"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="XX" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="21.333" Foreground="#FFFBC000" Grid.Row="1"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="16" Foreground="#FF323232" Grid.Row="2" LineHeight="26.667">
+                    	<Run Text="12-oun33333ce fillet of salmon, skin on (or 6 ounces per person)"/>
+                    	<LineBreak/>
+                    	<Run Text="1 small shallot, finely chopped (about 1 heaped tablespoon)"/>
+                    	<LineBreak/>
+                    	<Run Text="2 tablespoons chopped parsley"/>
+                    	<LineBreak/>
+                    	<Run Text="2 tablespoons chopped basil (or other herb of your choice)"/>
+                    	<LineBreak/>
+                    	<Run Text="1 teaspoon dried dill (or 1 tablespoon fresh)"/>
+                    	<LineBreak/>
+                    	<Run Text="Finely grated zest of a lemon (1 loosely packed tablespoon)"/>
+                    	<LineBreak/>
+                    	<Run Text="1 tablespoon of olive oil or enough to moisten the herbs"/>
+                    	<LineBreak/>
+                    	<Run Text="A generous pinch of flaky sea salt"/>
+                    </TextBlock>
+                </Grid>
+                <Grid x:Name="grdEquipment" Grid.Row="2" Grid.Column="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Equipment" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="21.333" Grid.Row="1" Foreground="#FFFBC000"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="16" Grid.Row="2" LineHeight="20" Foreground="Black">
+        				<Run Text="A shallow baking tray"/>
+        				<LineBreak/>
+        				<Run Text="A rack (doesn't need to fit into the tray)"/>
+        				<LineBreak/>
+        				<Run Text="A chef's knife and cutting board"/>
+        				<LineBreak/>
+        				<Run Text="A spatula"/>
+                    </TextBlock>
+                </Grid>
+                <Grid x:Name="grdInstructions" Grid.Row="2" Grid.Column="6">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Instructions" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="21.333" Grid.Row="1" Foreground="#FFFBC000"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="16" Grid.Row="2" LineHeight="20" Foreground="Black">
+        				<Run Text="1. A half-hour before you start: Remove the salmon from the refrigerator, unwrap it and let it sit on the counter to come to room temperature. Place a pan 1/2 full of water (I use a 8&quot; round cake tin) in the oven on the lower rack and preheat to 250°F."/>
+        				<LineBreak/>
+        				<Run/>
+        				<LineBreak/>
+        				<Run Text="2. Prep the herb paste: Finely chop the shallot, parsley, basil and other herbs. Zest the lemon (I find a microplane is the best way to go.) Mix the shallot, herbs and lemon zest in a bowl and moisten with the olive oil to form a rough paste."/>
+        				<LineBreak/>
+        				<Run/>
+                    </TextBlock>
+                </Grid>
+                <Grid x:Name="grdInstructions2" Grid.Row="2" Grid.Column="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="16" Grid.Row="2" LineHeight="20" Foreground="Black">
+        				<Run Text="3. Prepare the baking tray: Lightly oil the rack and place it over the tray. Place the salmon fillet skin side down on the rack."/>
+        				<LineBreak/>
+        				<Run/>
+        				<LineBreak/>
+        				<Run Text="4. Coat the salmon with the herbs: Pat the herbs on top of the salmon, forming a thick layer. I haven't had much luck coating the sides (the herbs usually fall off) but you can certainly give it a try."/>
+        				<LineBreak/>
+        				<Run/>
+        				<LineBreak/>
+        				<Run Text="5. Bake the salmon: Place the salmon in the oven on the middle rack and close the door immediately. Bake for 25 - 30 minutes. A thicker fillet will usually need a little longer time. Check for doneness at 20 minutes: "/>
+        				<LineBreak/>
+        				<Run/>
+                    </TextBlock>
+                </Grid>
+                <Grid x:Name="grdInstructions3" Grid.Row="2" Grid.Column="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="16" Grid.Row="2" LineHeight="20" Foreground="Black">
+        				<Run Text="remove the tray of salmon from the oven and close the oven door. (Since the oven is at such a low heat, you want to keep the door closed as much as possible.) Place a knife tip in the thickest part of the salmon and gently pry it open. If the salmon separates into flakes, it's done. If not, return it to the oven for another five minutes."/>
+        				<LineBreak/>
+        				<Run/>
+        				<LineBreak/>
+        				<Run Text="6. Garnish and serve: When the salmon is done, transfer it to a cutting board and cut into two pieces. To remove the skin (optional) work the edge of the spatula between the skin and the flesh. By gently wiggling, you should be able to lift the fillet clear of the skin. Sprinkle each fillet with the salt and serve."/>
+        				<LineBreak/>
+        				<Run/>
+                    </TextBlock>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+        <Grid x:Name="ImageViewShadow" Grid.RowSpan="2" Background="#F3000000" Visibility="Collapsed" Opacity="0" Tapped="ImageViewShadow_Tapped"/>
+        <Grid x:Name="ImageView" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,47,0,0" Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5" Opacity="0" >
+            <Grid.RenderTransform>
+                <CompositeTransform/>
+            </Grid.RenderTransform>
+            <FlipView HorizontalAlignment="Center" VerticalAlignment="Center" Width="840" Height="395" Style="{StaticResource FlipViewStyle1}">
+                <FlipViewItem x:Name="flv1">
+                    <Grid HorizontalAlignment="Left" Height="389" VerticalAlignment="Top" Width="834">
+                        <Image Source="Assets/DetailPage/ImageView!.jpg" Stretch="UniformToFill"/>
+                    </Grid>
+                </FlipViewItem>
+                <FlipViewItem x:Name="flv2">
+                    <Grid HorizontalAlignment="Left" Height="389" VerticalAlignment="Top" Width="834">
+                        <Image Source="Assets/DetailPage/ImageView2.jpg" Stretch="UniformToFill"/>
+                    </Grid>
+                </FlipViewItem>
+                <FlipViewItem x:Name="flv3">
+                    <Grid HorizontalAlignment="Left" Height="389" VerticalAlignment="Top" Width="834">
+                        <Image Source="Assets/DetailPage/ImageView3.jpg" Stretch="UniformToFill"/>
+                    </Grid>
+                </FlipViewItem>
+            </FlipView>
+        </Grid>
+        <Grid x:Name="grdSnapView" Grid.RowSpan="2" Visibility="Collapsed">
+            <Grid.Background>
+                <ImageBrush ImageSource="Assets/HubPageImages/Bg.jpg"/>
+            </Grid.Background>
+            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="&quot;Please switch to full screen to view the details.&quot;" VerticalAlignment="Center" AllowDrop="True" FontSize="21.333" FontFamily="Segoe UI" Foreground="#FF1D1D1D"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}" Margin="36,0,36,16"/>
+            <TextBlock x:Name="pageTitle" Text="{Binding Title}" Style="{StaticResource PageHeaderTextStyle}" Grid.Column="1" IsHitTestVisible="false" Foreground="#FF323232" Margin="0,0,30,20"/>
+            <Image x:Name="image" HorizontalAlignment="Right" Height="77" VerticalAlignment="Center" Width="203" Source="Assets/HubPage/Logo.png" Margin="0,0,40,0" Grid.Column="1"/>
+        </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+
+            <!-- Visual states reflect the application's view state -->
+            <VisualStateGroup x:Name="ApplicationViewStates">
+                <VisualState x:Name="FullScreenLandscape"/>
+                <VisualState x:Name="Filled"/>
+
+                <!-- The back button respects the narrower 100-pixel margin convention for portrait -->
+                <VisualState x:Name="FullScreenPortrait">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="backButton" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PortraitBackButtonStyle}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+
+                <!-- The back button and title have different styles when snapped -->
+                <VisualState x:Name="Snapped">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="backButton" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SnappedBackButtonStyle}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="pageTitle" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SnappedPageHeaderTextStyle}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grdSnapView">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Visible</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="scrollViewer">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="TopApp">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="backButton">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Thickness>36,0,36,-21</Thickness>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="pageTitle">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Thickness>-32,0,30,20</Thickness>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</common:LayoutAwarePage>
